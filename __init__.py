@@ -1,4 +1,4 @@
-from ui import panel
+from ui import layers_panel
 import bpy
 
 bl_info = {
@@ -18,8 +18,8 @@ bl_info = {
 if bpy.__name__ in locals():
     from importlib import reload
     if "panel" in locals():
-        reload(panel)
+        reload(layers_panel)
 
 if __name__ == "__main__":
     print("Loading Material Painter.")
-    panel.main()
+    layers_panel.main()

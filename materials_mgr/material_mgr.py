@@ -1,9 +1,7 @@
 import bpy
 
 """
-    tree = bpy.context.object.active_material.node_tree
-    nodes = tree.nodes
-    links = tree.links
+    Convenient class which wraps blender python API and allows multiple operations on cycles materials
 """
 class MaterialMgr:
     def __init__(self):
