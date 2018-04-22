@@ -1,4 +1,4 @@
-from ui import layers_panel
+import ui
 import bpy
 
 bl_info = {
@@ -17,9 +17,15 @@ bl_info = {
 # Requires Python >= 3.4
 if bpy.__name__ in locals():
     from importlib import reload
-    if "panel" in locals():
-        reload(layers_panel)
+    if ui.__name__ in locals():
+        print("Reloading ui")
+        try:
+            ui.unregister()
+        except AttributeError as e:
+            print("Unable to unregister error:", e)
+        reload(ui)
+        ui.reload()
 
 if __name__ == "__main__":
     print("Loading Material Painter.")
-    layers_panel.main()
+    ui.register()
