@@ -1,6 +1,7 @@
 import ui
 import bpy
-from libs import addon_updater
+from autoupdater import setup as autoupdater_setup
+from importlib import reload
 
 bl_info = {
     "name": "Material Painter",
@@ -17,7 +18,6 @@ bl_info = {
 
 
 def trigger_reload(mod, locs=locals()):
-    from importlib import reload
 
     print("Reloading ", mod.__name__)
     if ui.__name__ not in locs:
@@ -34,11 +34,16 @@ def trigger_reload(mod, locs=locals()):
         mod.reload()
 
 
+def register():
+    ui.register()
+
+def unregister():
+    ui.unregister()
+
 if bpy.__name__ in locals():
-    modules = [ui, addon_updater]
+    modules = [ui, autoupdater_setup]
     [trigger_reload(module) for module in modules]
 
 if __name__ == "__main__":
-    print("Loading Material Painter.")
-    ui.register()
-    addon_updater.addon_updater_ops.register(bl_info)
+    autoupdater_setup.init(bl_info)
+    register()
