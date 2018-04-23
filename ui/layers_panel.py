@@ -165,11 +165,11 @@ class CustomProp(bpy.types.PropertyGroup):
 # -------------------------------------------------------------------
 
 def register():
-    print("Reg3")
     bpy.types.Scene.custom_index = bpy.props.IntProperty()
     bpy.types.Scene.custom = bpy.props.CollectionProperty(type=CustomProp)
 
 def unregister():
+    print("Unreg")
     del bpy.types.Scene.custom
     del bpy.types.Scene.custom_index
 

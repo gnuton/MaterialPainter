@@ -14,18 +14,25 @@ bl_info = {
     "category": "Texturing"
 }
 
-# Requires Python >= 3.4
-if bpy.__name__ in locals():
+def trigger_reload(mod, l = locals()):
     from importlib import reload
-    if ui.__name__ in locals():
-        print("Reloading ui")
-        try:
-            ui.unregister()
-        except AttributeError as e:
-            print("Unable to unregister error:", e)
-        reload(ui)
-        ui.reload()
+
+    print("Reloading ", mod.__name__)
+    if ui.__name__ not in l:
+        return
+
+    try:
+        mod.unregister()
+    except AttributeError as e:
+        print("Unable to unregister error:", e)
+    reload(mod)
+    mod.reload()
+
+if bpy.__name__ in locals():
+    modules = [ui]
+    [trigger_reload(module) for module in modules]
 
 if __name__ == "__main__":
+
     print("Loading Material Painter.")
     ui.register()
