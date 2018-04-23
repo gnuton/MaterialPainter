@@ -3,7 +3,6 @@ from ui import layers_panel
 
 
 def reload():
-
     from importlib import reload
     reload(layers_panel)
 
