@@ -3,11 +3,16 @@ import bpy
 """
     Convenient class which wraps blender python API and allows multiple operations on cycles materials
 """
+
+
 class MaterialMgr:
     def __init__(self):
         pass
 
-    def deselect_all_nodes:
+    def get_active_material(self):
+        return bpy.context.active_object.active_material.name
+
+    def deselect_all_nodes(self):
         """Returns {'FINISHED'} if everything whent fine, False if failure"""
         for area in bpy.context.screen.areas:
             if area.type == "NODE_EDITOR":
@@ -15,8 +20,7 @@ class MaterialMgr:
                 return bpy.ops.node.select_all(override, action='DESELECT')
         return False
 
-    @staticmethod
-    def get_material_by_name(name):
+    def get_material_by_name(self, name):
         """Returns the material associated with name. Returns None if any"""
         try:
             return bpy.data.materials[name]
@@ -35,7 +39,7 @@ class MaterialMgr:
         tree = self.get_material_tree(mat)
         return tree.nodes
 
-    def add_node(self, mat, node_name, node_type = "ShaderNodeBsdfPrincipled", location = (0, 0)):
+    def add_node(self, mat, node_name, node_type="ShaderNodeBsdfPrincipled", location=(0, 0)):
         """
         Adds a node to the tree. Returns the created node.
         :param mat: The material
@@ -49,7 +53,7 @@ class MaterialMgr:
         new_node.location = location
         return new_node
 
-    def add_group_node(self, mat, node_name, location = (0,0)):
+    def add_group_node(self, mat, node_name, location=(0, 0)):
         """
         Adds a group node to the target material
         :param mat:
@@ -72,7 +76,7 @@ class MaterialMgr:
         :return: the link between the two nodes as NodeLinks object
         """
         tree = self.get_material_tree(mat)
-        link = tree.links.new(nodeA.outputs[outputAIndex],nodeB.inputs[inputBIndex])
+        link = tree.links.new(nodeA.outputs[outputAIndex], nodeB.inputs[inputBIndex])
         return link
 
     def unlink_all_nodes(self, mat):
@@ -83,7 +87,6 @@ class MaterialMgr:
         """
         tree = self.get_material_tree(mat)
         tree.links.clear()
-
 
     def get_material_links(self, mat):
         """Returns a list of links as NodeLink objects among material nodes"""
@@ -104,4 +107,3 @@ class MaterialMgr:
         nodes = mat.node_tree.nodes
         for node in nodes:
             nodes.remove(node)
-

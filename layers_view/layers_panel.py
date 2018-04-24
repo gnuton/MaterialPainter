@@ -1,11 +1,12 @@
 """
-
+    This file contains all the UI components and the action operators linked to the UI elements in the
+    Layers Panel.
 """
 import bpy
+from layers_view.layers_panel_op_actions import LayersPanelOpActions
 
 
-# return name of selected object
-def get_activeSceneObject():
+def get_active_scene_object_name():
     return bpy.context.scene.objects.active.name
 
 
@@ -57,7 +58,7 @@ class ActionsOp(bpy.types.Operator):
         if self.action == 'ADD':
             item = scn.custom.add()
             item.id = len(scn.custom)
-            item.name = get_activeSceneObject()  # assign name of selected object
+            item.name = get_active_scene_object_name()  # assign name of selected object
             scn.custom_index = (len(scn.custom) - 1)
             info = '%s added to list' % (item.name)
             self.report({'INFO'}, info)
@@ -69,7 +70,7 @@ class ActionsOp(bpy.types.Operator):
 # draw
 # -------------------------------------------------------------------
 
-# custom list
+# draw the list item
 class LayersUIListItem(bpy.types.UIList):
 
     def draw_item(self, context, layout, data, item, icon, active_data, active_propname, index):
@@ -118,10 +119,7 @@ class PrintAllItemsOp(bpy.types.Operator):
     bl_description = "Print all items to the console"
 
     def execute(self, context):
-        scn = context.scene
-        for i in scn.custom:
-            print(i.name, i.id)
-        return {'FINISHED'}
+        return LayersPanelOpActions(context, self.report).print_all()
 
 
 # select button
@@ -131,12 +129,7 @@ class SelectAllItemsOp(bpy.types.Operator):
     bl_description = "Select Item in scene"
 
     def execute(self, context):
-        scn = context.scene
-        bpy.ops.object.select_all(action='DESELECT')
-        obj = bpy.data.objects[scn.custom[scn.custom_index].name]
-        obj.select = True
-
-        return {'FINISHED'}
+        return LayersPanelOpActions(context, self.report).selectAllItems()
 
 
 # clear button
@@ -146,20 +139,7 @@ class ClearAllItemsOp(bpy.types.Operator):
     bl_description = "Clear all items in the list"
 
     def execute(self, context):
-        scn = context.scene
-        lst = scn.custom
-        current_index = scn.custom_index
-
-        if len(lst) > 0:
-            # reverse range to remove last item first
-            for i in range(len(lst) - 1, -1, -1):
-                scn.custom.remove(i)
-            self.report({'INFO'}, "All items removed")
-
-        else:
-            self.report({'INFO'}, "Nothing to remove")
-
-        return {'FINISHED'}
+        return LayersPanelOpActions(context, self.report).clearAllItems()
 
 
 # Create custom property group
