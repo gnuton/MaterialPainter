@@ -24,6 +24,7 @@ def init(bl_info):
     #updater.showpopups = True
     updater.verbose = True
     updater.backup_current = False
-    updater.fake_install = True
+    updater.fake_install = True #FIXME Actually DISABLES this plugin
+    updater.subfolder_path = "libs/addon_updater/"
     updater.check_for_update_now(callback=checkedForUpdates)
 
