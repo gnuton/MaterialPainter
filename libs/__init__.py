@@ -1,3 +1,5 @@
+import bpy
+
 def register():
     pass
 

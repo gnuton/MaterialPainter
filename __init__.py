@@ -41,7 +41,7 @@ def unregister():
     ui.unregister()
 
 if bpy.__name__ in locals():
-    modules = [ui, autoupdater_setup]
+    modules = [ui]
     [trigger_reload(module) for module in modules]
 
 if __name__ == "__main__":

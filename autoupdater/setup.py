@@ -22,5 +22,8 @@ def init(bl_info):
     updater.website = "https://github.com/gnuton/MaterialPainter/"
     updater.current_version = bl_info["version"]
     #updater.showpopups = True
+    updater.verbose = True
+    updater.backup_current = False
+    updater.fake_install = True
     updater.check_for_update_now(callback=checkedForUpdates)
 
