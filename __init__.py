@@ -1,4 +1,4 @@
-import ui
+import layers_view
 import bpy
 from autoupdater import setup as autoupdater_setup
 from importlib import reload
@@ -18,9 +18,8 @@ bl_info = {
 
 
 def trigger_reload(mod, locs=locals()):
-
     print("Reloading ", mod.__name__)
-    if ui.__name__ not in locs:
+    if mod.__name__ not in locs:
         return
 
     try:
@@ -35,13 +34,15 @@ def trigger_reload(mod, locs=locals()):
 
 
 def register():
-    ui.register()
+    layers_view.register()
+
 
 def unregister():
-    ui.unregister()
+    layers_view.unregister()
+
 
 if bpy.__name__ in locals():
-    modules = [ui, autoupdater_setup]
+    modules = [layers_view, autoupdater_setup]
     [trigger_reload(module) for module in modules]
 
 if __name__ == "__main__":

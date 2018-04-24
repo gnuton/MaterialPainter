@@ -15573,7 +15573,7 @@ class ops:
          pass
 
    class ui:
-      '''Spcecial class, created just to reflect content of bpy.ops.ui'''
+      '''Spcecial class, created just to reflect content of bpy.ops.layers_view'''
 
       def copy_data_path_button(full_path=False):
          '''Copy the RNA data path for this property to the clipboard
@@ -77946,7 +77946,7 @@ class types:
       '''
       
       use_mouse_continuous = bool
-      '''Allow moving the mouse outside the view on some manipulations (transform, ui control drag)
+      '''Allow moving the mouse outside the view on some manipulations (transform, layers_view control drag)
          @returns: boolean
       '''
       

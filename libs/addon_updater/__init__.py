@@ -64,7 +64,7 @@ class DemoUpdaterPanel(bpy.types.Panel):
 		col.scale_y = 0.7
 		col.label("If an update is ready,")
 		col.label("popup triggered by opening")
-		col.label("this panel, plus a box ui")
+		col.label("this panel, plus a box layers_view")
 
 		# could also use your own custom drawing
 		# based on shared variables
@@ -131,7 +131,7 @@ class DemoPreferences(bpy.types.AddonPreferences):
 		#   2) toggle for auto-check (interval will be equal to what is set above)
 		# addon_updater_ops.update_settings_ui_condensed(self, context, col)
 
-		# Adding another column to help show the above condensed ui as one column
+		# Adding another column to help show the above condensed layers_view as one column
 		# col = mainrow.column()
 		# col.scale_y = 2
 		# col.operator("wm.url_open","Open webpage ").url=addon_updater_ops.updater.website

@@ -1,5 +1,5 @@
 import bpy
-from ui import layers_panel
+from layers_view import layers_panel
 
 
 def reload():
