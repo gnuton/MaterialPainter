@@ -1,7 +1,7 @@
 import bpy
 
 """
-    Convenient class which wraps blender python API and allows multiple operations on cycles materials
+    Convenient class which wraps blender python API and allows multiple basic operations on cycles materials
 """
 
 
@@ -9,33 +9,59 @@ class MaterialMgr:
     def __init__(self):
         pass
 
-    def get_active_material(self):
-        return bpy.context.active_object.active_material.name
+    # Materials
+    @staticmethod
+    def get_active_material():
+        """Returns bpy.data.materials[MAT_NAME] or None"""
+        return bpy.context.object.active_material
 
-    def deselect_all_nodes(self):
-        """Returns {'FINISHED'} if everything whent fine, False if failure"""
-        for area in bpy.context.screen.areas:
-            if area.type == "NODE_EDITOR":
-                override = {'screen': bpy.context.screen, 'area': area}
-                return bpy.ops.node.select_all(override, action='DESELECT')
-        return False
-
-    def get_material_by_name(self, name):
+    @staticmethod
+    def get_material_by_name(name):
         """Returns the material associated with name. Returns None if any"""
         try:
             return bpy.data.materials[name]
         except KeyError:
             return None
 
-    def get_active_material(self):
-        """Returns bpy.data.materials[MAT_NAME] or None"""
-        return bpy.context.object.active_material
+    @staticmethod
+    def create_new_material_for_active_obj(material_name):
+        print("CREATING MAT")
+        active_obj = bpy.context.active_object
+        return MaterialMgr.create_new_material(material_name, active_obj)
 
-    def get_material_tree(self, mat):
+    @staticmethod
+    def create_new_material(material_name, obj=None):
+        """Create a new Material and applies it to object obj.
+        :param material_name: the name of the material as a string
+        :param obj: Reference to the object to which the material will be assigned or None
+        """
+        mat = bpy.data.materials.new(name=material_name)
+        mat.use_nodes = True
+        if obj:
+            obj.data.materials.append(mat)
+        return mat
+
+    # Material nodes
+    @staticmethod
+    def deselect_all_nodes():
+        """Deselect all nodes in the view
+        :return: Returns {'FINISHED'} if sucessfull and {'CANCELLED'} otherwise
+        """
+        for area in bpy.context.screen.areas:
+            if area.type == "NODE_EDITOR":
+                override = {'screen': bpy.context.screen, 'area': area}
+                return bpy.ops.node.select_all(override, action='DESELECT')
+        return {'CANCELLED'}
+
+    @staticmethod
+    def get_material_tree(mat):
         return mat.node_tree;
 
     def get_material_nodes(self, mat):
-        """Returns the nodes in the material"""
+        """Returns the nodes in the material
+        :param mat:
+        :return:
+        """
         tree = self.get_material_tree(mat)
         return tree.nodes
 

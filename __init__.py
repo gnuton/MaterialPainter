@@ -1,7 +1,6 @@
-import layers_view
 import bpy
-from autoupdater import setup as autoupdater_setup
-from importlib import reload
+import layers_view
+import helpers.updater as updater
 
 bl_info = {
     "name": "Material Painter",
@@ -12,25 +11,9 @@ bl_info = {
     "description": ("Experimental PBR Material painter"),
     "warning": "",  # used for warning icon and text in addons panel
     "wiki_url": "https://github.com/gnuton/MaterialPainter/wiki",
-    "tracker_url": "https://github.com/enziop/MaterialPainter/issues",
+    "tracker_url": "https://github.com/gnuton/MaterialPainter/issues",
     "category": "Texturing"
 }
-
-
-def trigger_reload(mod, locs=locals()):
-    print("Reloading ", mod.__name__)
-    if mod.__name__ not in locs:
-        return
-
-    try:
-        mod.unregister()
-    except Exception as e:
-        print("Unable to unregister error:", e)
-
-    reload(mod)
-
-    if hasattr(mod, 'reload'):
-        mod.reload()
 
 
 def register():
@@ -41,10 +24,14 @@ def unregister():
     layers_view.unregister()
 
 
+# Add here the packages you wanna to be reloaded when the developer press "Run Script"
+pkgs = ["helpers", "libs", "materials_mgr", "layers_view"]
 if bpy.__name__ in locals():
-    modules = [layers_view, autoupdater_setup]
-    [trigger_reload(module) for module in modules]
+    import helpers.package_reloader as pr
+
+    pr.reload(pr)  # auto-reload itself
+    pr.PackageReloader().reload_packages(pkgs)
 
 if __name__ == "__main__":
-    autoupdater_setup.init(bl_info)
+    updater.init(bl_info)
     register()

@@ -2,7 +2,7 @@
     This file contains all actions which the operators defined in layers_panel perform outside the UI
 """
 import bpy
-
+from materials_mgr.material_mgr import MaterialMgr
 
 class LayersPanelOpActions:
     def __init__(self, context, report):
@@ -10,9 +10,11 @@ class LayersPanelOpActions:
         self.report = report
 
     def print_all(self):
-        scn = self.context.scene
-        for i in scn.custom:
-            print(i.name, i.id)
+        #scn = self.context.scene
+        #for i in scn.custom:
+        #    print(i.name, i.id)
+        print("PRINT ALL8")
+        MaterialMgr.create_new_material_for_active_obj("TheName2")
         return {'FINISHED'}
 
     def selectAllItems(self):

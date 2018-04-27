@@ -797,7 +797,7 @@ class Singleton_updater(object):
 
 		# either directly in root of zip, or one folder level deep
 		unpath = os.path.join(self._updater_path,"source")
-		if os.path.isfile(os.path.join(unpath,"__init__.py")) == False:
+		if os.path.isfile(os.path.join(unpath,"updater.py")) == False:
 			dirlist = os.listdir(unpath)
 			if len(dirlist)>0:
 				if self._subfolder_path == "" or self._subfolder_path == None:
@@ -806,8 +806,8 @@ class Singleton_updater(object):
 					unpath = os.path.join(unpath,dirlist[0],self._subfolder_path)
 
 			# smarter check for additional sub folders for a single folder
-			# containing __init__.py
-			if os.path.isfile(os.path.join(unpath,"__init__.py")) == False:
+			# containing updater.py
+			if os.path.isfile(os.path.join(unpath,"updater.py")) == False:
 				if self._verbose:
 					print("not a valid addon found")
 					print("Paths:")

@@ -158,7 +158,6 @@ def register():
 
 
 def unregister():
-    print("Unreg")
     del bpy.types.Scene.custom
     del bpy.types.Scene.custom_index
 

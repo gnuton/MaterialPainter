@@ -1,10 +1,11 @@
 import bpy
-from layers_view import layers_panel
-
+from layers_view import layers_panel, layers_panel_op_actions
 
 def reload():
     from importlib import reload
-    reload(layers_panel)
+    modules = [layers_panel_op_actions, layers_panel]
+    for module in modules:
+        reload(module)
 
 
 def register():
