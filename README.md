@@ -1,18 +1,20 @@
-# Blender Addon Template
-This repository contains a blender addon template with some fancy features like:
-* Code in an external IDE (eg pycharm) and display the changes straightaway in Blender
-* IDE support for blender python API
-* Script for updating the blender python API
-* Blender python API 2.79b already in lib/
+# Blender Addon Starter Kit
 
-# How to use
+This repository contains a blender addon template with some fancy features like:
+* External IDE support
+    * Load the dev.py file in blender and press the "Run Script" button to show the changes in realtime
+    * Syntax highlight for bpy modules
+        * Blender 2.79b API already in lib/
+        * You can retrieve other APIs by running script/update_blender_api.sh (for unix only)
+* You addon updates itself on startup if there is a newer version in github or other VCS
+
+# Getting this code in use
 ## Linux/Unix
 1. Fork this repository (if you wanna keep your changes on github)
-2. Clone the forked repo or this repo
-3. OPTIONAL since in lib/blender you can already find 2.79b files.
-   But in case you wanna use a different blender files:
+2. Clone the forked repo or this repo on your working machine
+3. OPTIONAL STEP!!! if you are gonna use blender 2.79b skip this step.
    run ./update_blender_api.sh in scripts/ to retrieve the python blender APIs from your blender installation
-4. Add blender lib to all your pycharm projects:
+4. Add blender lib to all your pycharm projects (in order to have bpy modules autocompletation in the IDE)
     * File > Settings
     * Project: PROJECT_NAME > Project Interpreter
     * Click the gear icon in the right upper corner of the window
@@ -22,9 +24,10 @@ This repository contains a blender addon template with some fancy features like:
     * Add the lib/blender directory to the list
    ![pycharm](https://github.com/mutantbob/pycharm-blender/blob/master/pycharm-3.4-screenshot.png?raw=true)
 5. Open dev.py in blender
-6. Edit the line git_path with the path to your plugin eg: /home/gnuton/git/blendaddon/
-7. Make your changes in pycharm
+6. Edit the git_path var to point to the path of your plugin eg: /home/gnuton/git/blendaddon/
+7. Now you can change stuff in your code
 8. Press "Run Script" in blender to run it.
+9. updater is off by default and needs some configuration to work. Edit helpers/updater.py var to take it in use
 
 # Windows
 Same as above, but as for now batch script for retrieving blender python API is missing.
