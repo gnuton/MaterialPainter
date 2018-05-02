@@ -24,21 +24,35 @@ class MaterialMgr:
             return None
 
     @staticmethod
-    def create_new_material_for_active_obj(material_name):
-        print("CREATING MAT")
+    def create_new_material_for_active_obj(material_name, force=False):
+        """Create a new Material and applies it to the active object obj.
+                :param material_name: the name of the material as a string
+                :param force: Force creation of a new material even if a material with the same name already exist,
+                              the material is assigned to the object
+                """
         active_obj = bpy.context.active_object
-        return MaterialMgr.create_new_material(material_name, active_obj)
+        return MaterialMgr.create_new_material(material_name, active_obj, force)
 
     @staticmethod
-    def create_new_material(material_name, obj=None):
+    def create_new_material(material_name, obj=None, force=False, engine='CYCLES'):
         """Create a new Material and applies it to object obj.
         :param material_name: the name of the material as a string
         :param obj: Reference to the object to which the material will be assigned or None
+        :param force: Force creation of a new material even if a material with the same name already exist, the material
+        :param engine: Engine for the new material to create
+                      is assigned to the object
         """
-        mat = bpy.data.materials.new(name=material_name)
-        mat.use_nodes = True
+        current_engine = bpy.context.scene.render.engine
+        bpy.context.scene.render.engine = engine
+        mat = MaterialMgr.get_material_by_name(material_name)
+        if force or not mat:
+            mat = bpy.data.materials.new(name=material_name)
+            mat.use_nodes = True
+
         if obj:
             obj.data.materials.append(mat)
+
+        bpy.context.scene.render.engine = current_engine
         return mat
 
     # Material nodes

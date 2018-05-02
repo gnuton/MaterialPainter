@@ -13,8 +13,8 @@ class LayersPanelOpActions:
         #scn = self.context.scene
         #for i in scn.custom:
         #    print(i.name, i.id)
-        print("PRINT ALL8")
-        MaterialMgr.create_new_material_for_active_obj("TheName2")
+        mat = MaterialMgr.create_new_material_for_active_obj("TheName2")
+        print('MAT ', mat.name)
         return {'FINISHED'}
 
     def selectAllItems(self):
