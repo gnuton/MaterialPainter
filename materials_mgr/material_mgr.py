@@ -55,6 +55,19 @@ class MaterialMgr:
         bpy.context.scene.render.engine = current_engine
         return mat
 
+    def remove_material(self, name):
+        """
+        Remove a material from
+        :param name:
+        :return:
+        """
+        mat = MaterialMgr.get_material_by_name(name)
+        if not mat:
+            return False
+        else:
+            bpy.data.materials.remove(mat)
+            return True
+
     # Material nodes
     @staticmethod
     def deselect_all_nodes():
